@@ -4,3 +4,4 @@ django-memcache-status==2.1
 djangorestframework==3.10.1
 django-braces==1.13.0
 python-memcached==1.59
+uWSGI==2.0.18
