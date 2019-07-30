@@ -5,7 +5,7 @@ from .models import Course
 
 def subdomain_course_middleware(get_response):
     """
-    Provide subdomain for courses
+    Provides subdomains for courses
     """
     def middleware(request):
         host_parts = request.get_host().split('.')
@@ -19,7 +19,9 @@ def subdomain_course_middleware(get_response):
                                      '.'.join(host_parts[1:]),
                                      course_url)
             return redirect(url)
+
         response = get_response(request)
         return response
 
     return middleware
+
