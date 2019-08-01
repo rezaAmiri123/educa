@@ -28,7 +28,7 @@ urlpatterns = [
     path('course/', include('courses.urls')),
     path('', CourseListView.as_view(), name='course_list'),
     path('students/', include('students.urls')),
-    # path('api/', include('courses.api.urls', namespace='api')),
+    path('api/v1/', include('courses.api.v1.urls', namespace='api')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
