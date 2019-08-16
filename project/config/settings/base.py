@@ -26,7 +26,7 @@ SECRET_KEY = 'i)w2ac!txej44!g-g(vx(ugbijan8g=hdd-vo!%ev8=z_^8ke0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -136,7 +136,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211',
+        'LOCATION': 'memcached:11211', # docker address
+        # 'LOCATION': '127.0.0.1:11211',
     }
 }
 

@@ -1,20 +1,60 @@
 version: "3"
 services:
-  web:
-    # replace username/repo:tag with your name and image details
-    image: username/repo:tag
-    deploy:
-      replicas: 5
-      resources:
-        limits:
-          cpus: "0.1"
-          memory: 50M
-      restart_policy:
-        condition: on-failure
-    ports:
-      - "4000:80"
+  djangoapp:
+    image: educa
+    # build: .
+    command: sh run/run_web.sh
+    volumes:
+      - .:/opt/services/djangoapp/src
+      - static_volume:/opt/services/djangoapp/src/project/static
+      - media_volume:/opt/services/djangoapp/src/project/static
     networks:
-      - webnet
+      - nginx_network
+      - database1_network
+      - memcached_network
+    depends_on:
+      - database1
+  
+  memcached:
+    image: memcached
+    ports:
+      - 11211:11211
+    networks:
+      - memcached_network
+
+  database1:
+    image: postgres
+    env_file:
+      - config/db/database1_env
+    networks:
+      - database1_network
+    volumes:
+      - database1_volume:/var/lib/postgresql/data
+
+  nginx:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./config/nginx/conf.d:/etc/nginx/conf.d
+      - static_volume:/opt/services/djangoapp/src/project/static
+      - media_volume:/opt/services/djangoapp/src/project/media
+    depends_on:
+      - djangoapp
+    networks:
+      - nginx_network
+
 networks:
-  webnet:
+  nginx_network:
+    driver: bridge
+  database1_network:
+    driver: bridge
+  memcached_network:
+    driver: bridge
+
+volumes:
+  database1_volume:
+  static_volume:
+  media_volume:
+
 

@@ -1,17 +1,19 @@
-# Use an offical Python runtime as a parent image
+# start from an official image
 FROM python:3.7-slim
-ENV PYTHONUNBUFFERED 1
-ENV NAME Project
-RUN mkdir /code
-WORKDIR /code
-COPY . /code
-RUN python -m venv venv
-RUN source venv/bin/activate
+
+# arbitrary location choice: you can change the directory
+RUN mkdir -p /opt/services/djangoapp/src
+
+WORKDIR /opt/services/djangoapp/src
+# copy our project code
+COPY . /opt/services/djangoapp/src
+
+# install django app requirements
 RUN pip install -r requirements.txt
 
-# Make port 80 available to the world outside this container
-EXPOSE 80
+# expose the port 8000
+# EXPOSE 8000
 
-# Run uwsgi when the container launches
-CMD ['uwsgi', '--ini', 'config/docker_uwsgi.ini']
+# define the default command to run when starting the container
+# CMD ["gunicorn", "--chdir", "project", "--bind", ":8000", "config.wsgi:application"]
 
