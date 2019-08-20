@@ -55,10 +55,10 @@ class CourseUpdateView(PermissionRequiredMixin,
 
 class CourseDeleteView(PermissionRequiredMixin,
                        OwnerCourseMixin,
-                       generic.DetailView):
+                       generic.DeleteView):
     template_name = 'courses/manage/course/delete.html'
     success_url = reverse_lazy('manage_course_list')
-    permission_required = 'course.delete_course'
+    permission_required = 'courses.delete_course'
 
 
 class CourseModuleUpdateView(TemplateResponseMixin,
@@ -73,7 +73,7 @@ class CourseModuleUpdateView(TemplateResponseMixin,
         self.course = get_object_or_404(Course,
                                         id=pk,
                                         owner=request.user)
-        return super(CourseModuleUpdateView, self).dispatch(request, pk, *apps, **kwargs)
+        return super(CourseModuleUpdateView, self).dispatch(request, pk, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         formset = self.get_formset()

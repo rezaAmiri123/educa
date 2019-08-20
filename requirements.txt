@@ -1,4 +1,4 @@
-Django==2.2.3
+Django==2.2.4
 django-embed-video==1.2.0
 django-memcache-status==2.1
 djangorestframework==3.10.1
@@ -6,4 +6,4 @@ django-braces==1.13.0
 python-memcached==1.59
 gunicorn==19.9.0
 psycopg2-binary==2.8.3
-
+coverage==4.5.4
